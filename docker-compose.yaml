@@ -11,6 +11,8 @@ services:
       - .:/src
     ports:
       - 49500:8000
+    networks:
+      - teamc_network
   db:
     container_name: database
     image: mysql:8.0
