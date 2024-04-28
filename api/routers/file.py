@@ -2,6 +2,7 @@ from fastapi import APIRouter,HTTPException,status,File,UploadFile,BackgroundTas
 from llm.chat import db
 from langchain_community.document_loaders import TextLoader
 import os
+from glob import glob
 
 router = APIRouter()
 
@@ -23,3 +24,15 @@ async def post_file(background_tasks: BackgroundTasks,file: UploadFile = File(..
     background_tasks.add_task(add_data, file_path)
 
     raise HTTPException(status_code=status.HTTP_202_ACCEPTED, detail="File uploaded successfully")
+
+@router.get("/file_paths", tags=["file"])
+async def get_file_paths():
+    file_paths = []
+    csv_files = glob("llm/csv/*")
+    file_paths.extend([os.path.basename(file) for file in csv_files])
+
+    save_directory = "/media"
+    saved_files = glob(f"{save_directory}/*")
+    file_paths.extend([os.path.basename(file) for file in saved_files])
+    
+    return {"file_paths": file_paths}
