@@ -1,20 +1,10 @@
 # python3.11のイメージをダウンロード
-FROM python:3.11-buster
+FROM nvcr.io/nvidia/pytorch:24.03-py3
 ENV PYTHONUNBUFFERED=1
 
 WORKDIR /src
 
-# pipを使ってpoetryをインストール
-RUN pip install poetry
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
-# poetryの定義ファイルをコピー (存在する場合)
-COPY pyproject.toml* poetry.lock* ./
-
-# poetryでライブラリをインストール (pyproject.tomlが既にある場合)
-RUN poetry config virtualenvs.in-project false
-RUN if [ -f pyproject.toml ]; then poetry install --no-root; fi
-
-COPY . .
-
-# uvicornのサーバーを立ち上げる
-ENTRYPOINT ["poetry", "run", "uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]
+ENTRYPOINT ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--reload"]

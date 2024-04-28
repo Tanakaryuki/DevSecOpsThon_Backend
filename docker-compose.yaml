@@ -3,7 +3,7 @@ services:
   api:
     container_name: api
     depends_on:
-      db:
+      database:
         condition: service_healthy
     build: .
     volumes:
@@ -11,10 +11,17 @@ services:
       - .:/src
     ports:
       - 49500:8000
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  database:
+    container_name: database
     networks:
       - teamc_network
-  db:
-    container_name: database
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root_password
