@@ -23,11 +23,14 @@ services:
     ports:
       - 49555:3306
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
+      test: ["CMD", "mysqladmin", "ping", "-h", "db"]
+      interval: 3s
       timeout: 10s
-      retries: 5
+      retries: 10
     devices:
       - "/dev/urandom:/dev/random"
 volumes:
   mysql_data:
+networks:
+  teamc_network:
+    external: true
