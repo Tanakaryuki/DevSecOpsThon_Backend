@@ -43,3 +43,11 @@ volumes:
 networks:
   teamc_network:
     external: true
+nginx:
+  image: nginx:latest
+  ports:
+    - "49510:49510"
+  volumes:
+    - ./nginx.conf:/etc/nginx/nginx.conf
+  depends_on:
+    - api
