@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 app = FastAPI()
 
-@app.get("/hello")
+@app.get("/")
 async def hello():
     return {"message": "hello world!"}
 

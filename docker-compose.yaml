@@ -10,7 +10,7 @@ services:
       - .dockervenv:/src/.venv
       - .:/src
     ports:
-      - 8000:8000
+      - 49500:8000
   db:
     container_name: database
     image: mysql:8.0
@@ -21,7 +21,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     ports:
-      - 33306:3306
+      - 49555:3306
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
