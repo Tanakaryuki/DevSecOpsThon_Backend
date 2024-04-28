@@ -17,6 +17,5 @@ async def get_streaming() -> StreamingResponse:
 
 @router.get("/question",tags=["lmm"])
 async def get_question() -> dict:
-    text = "ここに質問が来る"
-    message, sources = qa_system(text)
-    return {"message": message, "sources": sources}
+    text = "楽器の処分方法を教えてください"
+    return StreamingResponse(qa_system(text), media_type="text/event-stream")

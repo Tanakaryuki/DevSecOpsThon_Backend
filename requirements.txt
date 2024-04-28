@@ -204,3 +204,4 @@ fastapi==0.110.2
 uvicorn
 python-multipart
 python-dotenv
+sentencepiece
