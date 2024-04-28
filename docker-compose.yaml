@@ -30,7 +30,7 @@ services:
     ports:
       - 49555:3306
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "db"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "database"]
       interval: 3s
       timeout: 10s
       retries: 10
