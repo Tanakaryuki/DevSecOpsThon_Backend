@@ -26,7 +26,7 @@ async def read_gpudata():
     output = result.stdout
     
     # GPU使用率を抽出
-    gpu_util_match = re.search(r'.*(\d+)%\s+Default', output)
+    gpu_util_match = re.search(r'(\d+)%\s+Default', output)
     if gpu_util_match:
         gpu_util = gpu_util_match.group(1)
     else:
