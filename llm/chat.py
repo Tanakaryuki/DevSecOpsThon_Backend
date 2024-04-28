@@ -1,6 +1,4 @@
 import torch
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 from langchain import PromptTemplate
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
