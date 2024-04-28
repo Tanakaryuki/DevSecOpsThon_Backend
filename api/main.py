@@ -6,6 +6,7 @@ import re
 
 from api.routers import lmm
 from api.routers import file
+from api.routers import user
 
 from dotenv import load_dotenv
 
@@ -35,6 +36,7 @@ async def read_gpudata():
 
 app.include_router(lmm.router,prefix="/lmm")
 app.include_router(file.router,prefix="/file")
+app.include_router(user.router,prefix="/user")
 
 origins = [
     "*"
