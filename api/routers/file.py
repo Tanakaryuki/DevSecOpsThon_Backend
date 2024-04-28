@@ -10,7 +10,7 @@ async def add_data(file_path:str):
 @router.post("",tags=["file"])
 async def post_file(background_tasks: BackgroundTasks,file: UploadFile = File(...)) -> dict:
     contents = await file.read()
-    save_directory = "/home/teamC/files/"
+    save_directory = "/media"
 
     file_path = os.path.join(save_directory, file.filename)
 
