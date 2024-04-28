@@ -20,8 +20,6 @@ services:
               capabilities: [gpu]
   database:
     container_name: database
-    networks:
-      - teamc_network
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root_password
