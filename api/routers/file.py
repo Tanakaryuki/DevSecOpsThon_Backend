@@ -1,4 +1,5 @@
-from fastapi import APIRouter,HTTPException,status,File,UploadFile,BackgroundTasks
+from fastapi import APIRouter,status,File,UploadFile,BackgroundTasks
+from fastapi.responses import JSONResponse
 from llm.chat import db
 from langchain_community.document_loaders import TextLoader
 import os
@@ -23,7 +24,7 @@ async def post_file(background_tasks: BackgroundTasks,file: UploadFile = File(..
 
     background_tasks.add_task(add_data, file_path)
 
-    raise HTTPException(status_code=status.HTTP_202_ACCEPTED, detail="File uploaded successfully")
+    return JSONResponse(status_code=status.HTTP_202_ACCEPTED, content={"message": "File uploaded successfully"})
 
 @router.get("/file_paths", tags=["file"])
 async def get_file_paths():
