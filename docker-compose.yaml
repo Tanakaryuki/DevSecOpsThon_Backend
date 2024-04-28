@@ -13,6 +13,19 @@ services:
       - 49500:8000
     networks:
       - teamc_network
+
+  teamc_nginx:
+    container_name: teamc_nginx
+    image: nginx
+    ports:
+      # ポートマッピング： "ホストOSのポート:コンテナ(Nginx)のポート"
+      - "49510:49510"
+    volumes:
+      - /home/teamC/DevSecOpsThon_server:/workspace
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - teamc-network
+
   db:
     container_name: database
     image: mysql:8.0
