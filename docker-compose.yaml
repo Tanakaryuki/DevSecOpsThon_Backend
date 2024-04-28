@@ -53,3 +53,6 @@ services:
       - teamc_network
 volumes:
   mysql_data:
+networks:
+  teamc_network:
+    driver: bridge
