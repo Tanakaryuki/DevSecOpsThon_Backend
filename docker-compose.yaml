@@ -18,6 +18,8 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
+    networks:
+      - teamc_network
   database:
     container_name: database
     image: mysql:8.0
@@ -36,7 +38,10 @@ services:
       retries: 10
     devices:
       - "/dev/urandom:/dev/random"
+    networks:
+      - teamc_network
   nginx:
+    container_name: nginx
     image: nginx:latest
     ports:
       - "49510:49510"
@@ -44,5 +49,7 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - api
+    networks:
+      - teamc_network
 volumes:
   mysql_data:
