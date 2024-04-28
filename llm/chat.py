@@ -25,7 +25,7 @@ tokenizer = AutoTokenizer.from_pretrained(
 model = AutoModelForCausalLM.from_pretrained(
     model_name,
     load_in_4bit=True,
-    torch_dtype=torch.float32,
+    torch_dtype=torch.float16,
     device_map="auto",
     cache_dir="/src/llm/cache_dir",
 )
