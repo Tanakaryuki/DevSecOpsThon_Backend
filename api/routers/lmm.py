@@ -5,7 +5,7 @@ import asyncio
 router = APIRouter()
 
 @router.get("/streaming",tags=["lmm"])
-async def get_streaming():
+async def get_streaming() -> StreamingResponse:
     async def generate():
         for i in range(10):
             yield f"data: {i}\n\n"
@@ -13,6 +13,7 @@ async def get_streaming():
 
     return StreamingResponse(generate(), media_type="text/event-stream")
 
-@router.get("/hello",tags=["lmm"])
-async def hello():
-    return {"message": "hello world!"}
+@router.get("/question",tags=["lmm"])
+async def get_question() -> dict:
+    message = "Enter LMM results here"
+    return {"message": message}

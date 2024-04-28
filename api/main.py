@@ -5,9 +5,10 @@ from api.routers import lmm
 
 from dotenv import load_dotenv
 
-
 load_dotenv()
-app = FastAPI()
+app = FastAPI(
+    title="TeamC LMM API",
+)
 
 @app.get("/")
 async def hello():
