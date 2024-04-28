@@ -1,13 +1,13 @@
 version: "3"
 services:
-  api_yuki:
-    container_name: api_yuki
+  api:
+    container_name: api
     depends_on:
-      database_yuki:
+      database:
         condition: service_healthy
     build: .
     volumes:
-      # - .dockervenv:/src/.venv
+      - .dockervenv:/src/.venv
       - .:/src
     ports:
       - 49500:8000
@@ -18,8 +18,10 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu]
-  database_yuki:
-    container_name: database_yuki
+  database:
+    container_name: database
+    networks:
+      - teamc_network
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root_password
@@ -30,11 +32,14 @@ services:
     ports:
       - 49555:3306
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
+      test: ["CMD", "mysqladmin", "ping", "-h", "db"]
+      interval: 3s
       timeout: 10s
-      retries: 5
+      retries: 10
     devices:
       - "/dev/urandom:/dev/random"
 volumes:
   mysql_data:
+networks:
+  teamc_network:
+    external: true
