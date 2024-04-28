@@ -2,6 +2,8 @@ from fastapi import FastAPI, APIRouter,Depends,HTTPException,status
 from fastapi.responses import StreamingResponse
 import asyncio
 
+from llm.chat import qa_system
+
 router = APIRouter()
 
 @router.get("/streaming",tags=["lmm"])
@@ -15,5 +17,6 @@ async def get_streaming() -> StreamingResponse:
 
 @router.get("/question",tags=["lmm"])
 async def get_question() -> dict:
-    message = "Enter LMM results here"
-    return {"message": message}
+    text = "ここに質問が来る"
+    message, sources = qa_system(text)
+    return {"message": message, "sources": sources}

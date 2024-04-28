@@ -1,18 +1,25 @@
 version: "3"
 services:
-  api:
-    container_name: api
+  api_yuki:
+    container_name: api_yuki
     depends_on:
-      db:
+      database_yuki:
         condition: service_healthy
     build: .
     volumes:
-      - .dockervenv:/src/.venv
+      # - .dockervenv:/src/.venv
       - .:/src
     ports:
       - 49500:8000
-  db:
-    container_name: database
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+  database_yuki:
+    container_name: database_yuki
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: root_password
