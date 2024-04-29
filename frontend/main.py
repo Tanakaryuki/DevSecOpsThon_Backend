@@ -30,7 +30,7 @@ if not st.session_state.logged_in:
         # 入力された情報を使用してトークンを取得
         form_data = {"username": username, "password": password}
         try:
-            response = requests.post('http://160.251.238.232:49500/user/token', data=form_data,verify=False)
+            response = requests.post('http://localhost:49500/user/token', data=form_data, verify=False)
             response.raise_for_status()
             access_token = response.json()["access_token"]
             st.session_state.access_token = access_token

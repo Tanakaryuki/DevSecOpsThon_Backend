@@ -8,4 +8,4 @@ COPY ./main.py ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-CMD ["streamlit", "run", "main.py", "--server.port", "49552"]
+CMD ["streamlit", "run", "main.py", "--server.port", "49550"]
