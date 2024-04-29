@@ -26,44 +26,17 @@ def run_command(command: str) -> str:
     result = subprocess.run(command, shell=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     return result.stdout
 
-@app.get("/gpudata")
-async def get_gpu_data():
-    # 'docker top api' コマンドを実行
-    docker_top_output = run_command("docker top api")
-    
-    # 出力からPPIDを取得
-    lines = docker_top_output.splitlines()
-    logging.ERROR(lines)
-    target_line = lines[7]  # 8行目を選択
-    ppid = target_line.split()[2]  # PPIDの位置
-    
-    # 'nvidia-smi' コマンドを実行
-    nvidia_smi_output = run_command("nvidia-smi")
-    
-    # PPIDを含む行からGPUメモリ使用量を抽出
-    gpu_memory_regex = re.compile(r'\b' + re.escape(ppid) + r'\b.*?(\d+)MiB')
-    match = gpu_memory_regex.search(nvidia_smi_output)
-    
-    if match:
-        gpu_memory = match.group(1)
-        return {"PPID": ppid, "GPU Memory": gpu_memory}
-    else:
-        return {"error": "PPID not found in GPU data"}
 
 @app.get("/gpudata")
-async def read_gpudata():
-    # nvidia-smiコマンドを実行
-    result = subprocess.run(['nvidia-smi'], stdout=subprocess.PIPE, text=True)
-    output = result.stdout
-    
-    # GPU使用率を抽出
-    gpu_util_match = re.search(r'(\d+)%\s+Default', output)
-    if gpu_util_match:
-        gpu_util = gpu_util_match.group(1)
-    else:
-        gpu_util = "N/A"  # 使用率が見つからない場合
+async def read_gpu_data():
+    try:
+        # ファイルからGPU使用率を読み込む
+        with open("/gpudata/gpudata.txt", "r") as file:
+            gpu_util = file.read().strip()
+            return {"gpu_util": f"{gpu_util}"}
+    except Exception as e:
+            return {"gpu_util": f"{0}"}
 
-    return {"gpu_util": f"{gpu_util}%"}
 
 app.include_router(lmm.router,prefix="/lmm")
 app.include_router(file.router,prefix="/file")
