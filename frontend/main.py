@@ -7,10 +7,10 @@ import time
 st.title("teamC")
 
 # REST APIのエンドポイントを設定
-streaming_endpoint = 'https://160.251.238.232:49510/lmm/streaming'
-list_endpoint = 'https://160.251.238.232:49510/file/file_paths'
-upload_endpoint = 'https://160.251.238.232:49510/file'
-vram_endpoint = 'https://160.251.238.232:49510/gpudata'
+streaming_endpoint = 'https://localhost:49510/lmm/streaming'
+list_endpoint = 'https://localhost:49510/file/file_paths'
+upload_endpoint = 'https://localhost:49510/file'
+vram_endpoint = 'https://localhost:49510/gpudata'
 
 # アクセストークンの保持
 if "access_token" not in st.session_state:
