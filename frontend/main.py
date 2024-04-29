@@ -30,7 +30,7 @@ if not st.session_state.logged_in:
         # 入力された情報を使用してトークンを取得
         form_data = {"username": username, "password": password}
         try:
-            response = requests.post('https://160.251.238.232:49510/user/token', data=form_data)
+            response = requests.post('https://160.251.238.232:49510/user/token', data=form_data,verify=False)
             response.raise_for_status()
             access_token = response.json()["access_token"]
             st.session_state.access_token = access_token
@@ -41,7 +41,7 @@ if not st.session_state.logged_in:
             st.error(f"ログインに失敗しました: {e}")
 
 def get_answer(question: str):
-    with requests.get(f"{streaming_endpoint}?question={question}", stream=True) as response:
+    with requests.get(f"{streaming_endpoint}?question={question}", stream=True,verify=False) as response:
         response.raise_for_status()
         message = ""
         for line in response.iter_lines():
@@ -52,14 +52,14 @@ def get_answer(question: str):
     
 def get_list():
     try:
-        response = requests.get(list_endpoint)
+        response = requests.get(list_endpoint,verify=False)
         response.raise_for_status()
         return response.json()["file_paths"]
     except requests.exceptions.RequestException as e:
         st.error(f"Error: {e}")
         
 def get_data():
-    response = requests.get(vram_endpoint)
+    response = requests.get(vram_endpoint,verify=False)
     response.raise_for_status()
     data = response.json()
     return int(data["gpu_util"].split("%")[0])
@@ -88,7 +88,7 @@ if st.session_state.access_token:
             try:
                 # ファイルをアップロード
                 files = {'file': uploaded_file}
-                response = requests.post(upload_endpoint, files=files)
+                response = requests.post(upload_endpoint, files=files,verify=False)
                 response.raise_for_status()
                 st.success("ファイルが正常にアップロードされました。")
             except requests.exceptions.RequestException as e:
