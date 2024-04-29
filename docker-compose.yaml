@@ -54,6 +54,13 @@ services:
       - api
     networks:
       - teamc_network
+  frontend:
+    container_name: frontend
+    build: ./frontend
+    ports:
+      - "49550:49550"
+    networks:
+      - teamc_network
 volumes:
   mysql_data:
 networks:
