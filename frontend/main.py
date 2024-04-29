@@ -1,5 +1,7 @@
+import threading
 import requests
 import streamlit as st
+import time
 
 # タイトルを設定
 st.title("teamC")
@@ -8,7 +10,7 @@ st.title("teamC")
 streaming_endpoint = 'http://localhost:49500/lmm/streaming'
 list_endpoint = 'http://localhost:49500/file/file_paths'
 upload_endpoint = 'http://localhost:49500/file'
-
+vram_endpoint = 'http://localhost:49500/gpudata'
 
 # アクセストークンの保持
 if "access_token" not in st.session_state:
@@ -55,6 +57,26 @@ def get_list():
         return response.json()["file_paths"]
     except requests.exceptions.RequestException as e:
         st.error(f"Error: {e}")
+        
+def get_data():
+    response = requests.get(vram_endpoint)
+    response.raise_for_status()
+    data = response.json()
+    return int(data["gpu_util"].split("%")[0])
+
+class Worker(threading.Thread):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.data = []
+    
+    def run(self):
+        while True:
+            self.data.append(get_data())
+            time.sleep(1)
+
+if "worker" not in st.session_state:
+    st.session_state.worker = Worker()
+    st.session_state.worker.start()
 
 if st.session_state.access_token:
     uploaded_file = st.sidebar.file_uploader("ファイルをアップロードしてください", key="file_uploader")
@@ -104,4 +126,11 @@ if st.session_state.access_token:
 
         with st.chat_message("assistant"):
             response = st.write(get_answer(prompt))
-    
+
+if st.session_state.access_token:
+    holder = st.sidebar.empty()
+    for _ in range(3):
+        st.empty()
+    while True:
+        holder.line_chart(st.session_state.worker.data[-10:])
+        time.sleep(2)
