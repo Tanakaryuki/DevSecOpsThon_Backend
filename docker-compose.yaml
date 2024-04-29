@@ -9,6 +9,9 @@ services:
     volumes:
       - .dockervenv:/src/.venv
       - .:/src
+      - type: bind
+        source: /home/haru/gmo/DevSecOpsThon_Backend/gpudata
+        target: /gpudata
     ports:
       - 49500:8000
     deploy:
