@@ -10,6 +10,7 @@ from api.routers import user
 # from api.routers import clip
 
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 app = FastAPI(
@@ -32,6 +33,7 @@ async def get_gpu_data():
     
     # 出力からPPIDを取得
     lines = docker_top_output.splitlines()
+    logging.ERROR(lines)
     target_line = lines[7]  # 8行目を選択
     ppid = target_line.split()[2]  # PPIDの位置
     
