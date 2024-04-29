@@ -36,7 +36,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 model, preprocess = ja_clip.load("rinna/japanese-clip-vit-b-16", cache_dir="/tmp/japanese_clip", device=device)
 tokenizer = ja_clip.load_tokenizer()
 labels = []
-with open("csv/output.csv", "r", newline="", encoding="utf-8") as csvfile:
+with open("llm/csv/output.csv", "r", newline="", encoding="utf-8") as csvfile:
     reader = csv.reader(csvfile)
     next(reader)
     for row in reader:
