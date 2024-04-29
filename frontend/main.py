@@ -9,7 +9,7 @@ st.title("teamC")
 # REST APIのエンドポイントを設定
 streaming_endpoint = 'http://api:8000/lmm/streaming'
 list_endpoint = 'http://api:8000/file/file_paths'
-upload_endpoint = 'http://api:8000:49510/file'
+upload_endpoint = 'http://api:8000/file'
 vram_endpoint = 'http://api:8000/gpudata'
 
 # アクセストークンの保持
