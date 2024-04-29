@@ -62,7 +62,7 @@ def get_data():
     response = requests.get(vram_endpoint,verify=False)
     response.raise_for_status()
     data = response.json()
-    return int(data["gpu_util"].split("%")[0])
+    return int(data["gpu_util"])
 
 class Worker(threading.Thread):
     def __init__(self, **kwargs):
