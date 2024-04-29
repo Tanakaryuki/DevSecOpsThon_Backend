@@ -133,4 +133,4 @@ if st.session_state.access_token:
         st.empty()
     while True:
         holder.line_chart(st.session_state.worker.data[-10:])
-        time.sleep(2)
+        time.sleep(1)
