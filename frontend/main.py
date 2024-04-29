@@ -7,10 +7,10 @@ import time
 st.title("teamC")
 
 # REST APIのエンドポイントを設定
-streaming_endpoint = 'https://160.251.238.232:49510/lmm/streaming'
-list_endpoint = 'https://160.251.238.232:49510/file/file_paths'
-upload_endpoint = 'https://160.251.238.232:49510/file'
-vram_endpoint = 'https://160.251.238.232:49510/gpudata'
+streaming_endpoint = 'http://160.251.238.232:49500/lmm/streaming'
+list_endpoint = 'http://160.251.238.232:49500/file/file_paths'
+upload_endpoint = 'http://160.251.238.232:49500/file'
+vram_endpoint = 'http://160.251.238.232:49500/gpudata'
 
 # アクセストークンの保持
 if "access_token" not in st.session_state:
@@ -30,7 +30,7 @@ if not st.session_state.logged_in:
         # 入力された情報を使用してトークンを取得
         form_data = {"username": username, "password": password}
         try:
-            response = requests.post('https://160.251.238.232:49510/user/token', data=form_data)
+            response = requests.post('http://160.251.238.232:49500/user/token', data=form_data)
             response.raise_for_status()
             access_token = response.json()["access_token"]
             st.session_state.access_token = access_token
@@ -62,7 +62,7 @@ def get_data():
     response = requests.get(vram_endpoint)
     response.raise_for_status()
     data = response.json()
-    return int(data["gpu_util"].split("%")[0])
+    return int(data["gpu_util"])
 
 class Worker(threading.Thread):
     def __init__(self, **kwargs):
